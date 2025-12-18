@@ -53,9 +53,10 @@ def main() -> None:
         out = graph.invoke(state.model_dump())
 
         _print_plan(out["plan"])
-        print(out["final"]["answer"])
-        _print_tool_log(out["tool_log"], full=args.full_log)
-
+        print(out["final"].answer)
+       # tool_log is a list of ToolResult objects; convert each to dict for printing
+        tool_log = [tr.model_dump() for tr in out["tool_log"]]
+        _print_tool_log(tool_log, full=args.full_log)
 
 if __name__ == "__main__":
     main()
